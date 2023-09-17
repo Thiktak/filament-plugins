@@ -1,6 +1,6 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace Thiktak\FilamentPlugins;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
@@ -16,7 +16,7 @@ use Spatie\LaravelPackageTools\PackageServiceProvider;
 use VendorName\Skeleton\Commands\SkeletonCommand;
 use VendorName\Skeleton\Testing\TestsSkeleton;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentPluginsServiceProvider extends PackageServiceProvider
 {
     public static string $name = 'skeleton';
 

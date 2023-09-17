@@ -1,21 +1,21 @@
 {
-    "name": ":vendor_slug/:package_slug",
+    "name": "thiktak/filament-plugins",
     "description": ":package_description",
     "keywords": [
         ":vendor_name",
         "laravel",
-        ":package_slug"
+        "filament-plugins"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/thiktak/filament-plugins",
     "support": {
-        "issues": "https://github.com/:vendor_slug/:package_slug/issues",
-        "source": "https://github.com/:vendor_slug/:package_slug"
+        "issues": "https://github.com/thiktak/filament-plugins/issues",
+        "source": "https://github.com/thiktak/filament-plugins"
     },
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Georges OLIVARES",
+            "email": "georges.olivares@gmail.com",
             "role": "Developer"
         }
     ],
@@ -42,14 +42,11 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src/",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories/"
+            "Thiktak\\FilamentPlugins\\": "src/"
         }
     },
     "autoload-dev": {
-        "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests/"
-        }
+        "psr-4": {}
     },
     "scripts": {
         "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
@@ -68,11 +65,9 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Thiktak\\FilamentPlugins\\FilamentPluginsServiceProvider"
             ],
-            "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
-            }
+            "aliases": {}
         }
     },
     "minimum-stability": "dev",
