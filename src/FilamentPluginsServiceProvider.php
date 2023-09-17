@@ -18,9 +18,9 @@ use VendorName\Skeleton\Testing\TestsSkeleton;
 
 class FilamentPluginsServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-plugins';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-plugins';
 
     public function configurePackage(Package $package): void
     {
@@ -36,7 +36,7 @@ class FilamentPluginsServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('thiktak/filament-plugins');
             });
 
         $configFileName = $package->shortName();
@@ -79,21 +79,21 @@ class FilamentPluginsServiceProvider extends PackageServiceProvider
         FilamentIcon::register($this->getIcons());
 
         // Handle Stubs
-        if (app()->runningInConsole()) {
+        /*if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
                     $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
                 ], 'skeleton-stubs');
             }
-        }
+        }*/
 
         // Testing
-        Testable::mixin(new TestsSkeleton());
+        //Testable::mixin(new TestsSkeleton());
     }
 
     protected function getAssetPackageName(): ?string
     {
-        return ':vendor_slug/:package_slug';
+        return 'thiktak/filament-flugins';
     }
 
     /**
@@ -103,8 +103,8 @@ class FilamentPluginsServiceProvider extends PackageServiceProvider
     {
         return [
             // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
+            //Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
+            //Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
         ];
     }
 
@@ -114,7 +114,7 @@ class FilamentPluginsServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            //SkeletonCommand::class,
         ];
     }
 
@@ -148,7 +148,7 @@ class FilamentPluginsServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_skeleton_table',
+            //'create_skeleton_table',
         ];
     }
 }
