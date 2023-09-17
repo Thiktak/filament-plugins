@@ -18,9 +18,9 @@ use VendorName\Skeleton\Testing\TestsSkeleton;
 
 class FilamentPluginsServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'filament-plugins';
+    public static string $name = 'thiktak-filament-plugins';
 
-    public static string $viewNamespace = 'filament-plugins';
+    public static string $viewNamespace = 'thiktak-filament-plugins';
 
     public function configurePackage(Package $package): void
     {
