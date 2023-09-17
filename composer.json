@@ -1,8 +1,8 @@
 {
     "name": "thiktak/filament-plugins",
-    "description": ":package_description",
+    "description": "Filament plugins",
     "keywords": [
-        ":vendor_name",
+        "thiktak",
         "laravel",
         "filament-plugins"
     ],
