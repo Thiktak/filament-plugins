@@ -4,18 +4,16 @@ namespace Thiktak\FilamentPlugins\Helpers;
 
 /* @source https://github.com/shadiakiki1986/composer-wrapper */
 
-use Composer\Repository\PlatformRepository;
 use Illuminate\Support\Facades\Cache;
 use Thiktak\FilamentPlugins\Vendors\Shadiakiki1986\ComposerWrapper;
 
 // code below copied from https://github.com/composer/composer/blob/master/src/Composer/Command/ShowCommand.php
 class ComparePackages
 {
-
-    static public function updateCaches()
+    public static function updateCaches()
     {
 
-        return Cache::rememberForever('list-of-packages', function () /*use ($installedPackages, $allDataPackagist) */ {
+        return Cache::rememberForever('list-of-packages', function () { /*use ($installedPackages, $allDataPackagist) */
 
             $installedPackages = Cache::remember('composer-packages', 15 * 60, function () {
                 $io = new \Composer\IO\NullIO();
@@ -40,6 +38,7 @@ class ComparePackages
                         if (strlen($return) < 255) {
                             $return = file_get_contents('https://repo.packagist.org/p2/' . $package->getname() . '~dev.json');
                         }
+
                         return $return;
                     }),
                     JSON_PRETTY_PRINT
@@ -94,9 +93,8 @@ class ComparePackages
                     'compare' => $compare,
                     'image' => collect(@get_meta_tags($url))
                         ->only('twitter:image:src', 'og:image')
-                        ->first()
+                        ->first(),
                 ];
-
 
                 //dd($return); //collect($package)->toArray());
 
@@ -108,7 +106,7 @@ class ComparePackages
 
             return [
                 'lastModified' => new \DateTime,
-                'data' => $return
+                'data' => $return,
             ];
         });
     }
