@@ -55,6 +55,7 @@ class AboutPluginsComposerList extends Page
         //Cache::forget('list-of-packages');
         $packages = ComparePackages::updateCaches();
         //$this->search = 'awcodes/filament-table-repeater';
+
         return [
             'lastModified' => new \Carbon\Carbon($packages['lastModified']),
             'total' => count($packages['data']),

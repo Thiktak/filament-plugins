@@ -66,6 +66,10 @@ class ComparePackages
                 echo '<h2>', $package->getName(), '</h2>';
                 echo 'Local: ', $versionPackage, ' - ', $package->getReleaseDate()->format('Y-m-d H:i:s'), '<br />';*/
 
+                /*if ($package->getName() == 'thiktak/filament-plugins') {
+                    dd($pacakge);
+                }*/
+
                 if ($package->getPrettyVersion() == $dist->get('version')) {
                     if ($package->getSourceReference() == data_get($dist, 'source.reference')) {
                         $compare = '=';
