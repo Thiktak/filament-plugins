@@ -4,6 +4,7 @@ namespace Thiktak\FilamentPlugins;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
+
 use Thiktak\FilamentPlugins\Filament\Pages;
 
 class FilamentPluginsPlugin implements Plugin

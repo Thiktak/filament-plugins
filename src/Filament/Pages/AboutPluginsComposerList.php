@@ -2,14 +2,18 @@
 
 namespace Thiktak\FilamentPlugins\Filament\Pages;
 
+use Filament\Pages\Page;
+use Symfony\Component\Process\Process;
+
 use Composer\Console\Application;
 use Filament\Actions\Action;
-use Filament\Pages\Page;
+use Illuminate\Cache\FileStore;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cache;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 use Thiktak\FilamentPlugins\Helpers\ComparePackages;
+use Thiktak\FilamentPlugins\Vendors\Shadiakiki1986\ComposerWrapper;
 
 class AboutPluginsComposerList extends Page
 {
@@ -53,11 +57,25 @@ class AboutPluginsComposerList extends Page
         $packages = ComparePackages::updateCaches();
         //$this->search = 'awcodes/filament-table-repeater';
 
+        foreach ($packages['data'] as $package) {
+            if ($package['data']->getName() == 'thiktak/filament-plugins') {
+                //dd($package);
+
+                /*dd($compare = ComparePackages::compareVersions(
+                    $package['data']->getVersion(),
+                    $package['data']->getSourceReference(),
+                    $package['data']->isDev(),
+                    data_get($package['dist'], 'version_normalized'),
+                    data_get($package['dist'], 'source.reference')
+                ));*/
+            }
+        }
+
         return [
             'lastModified' => new \Carbon\Carbon($packages['lastModified']),
             'total' => count($packages['data']),
             'packages' => collect($packages['data'] ?? [])
-                ->when(! empty($this->search), function ($query) {
+                ->when(!empty($this->search), function ($query) {
                     $words = array_filter(array_map('trim', explode(' ', $this->search)));
                     foreach ($words as $word) {
                         $query = $query
@@ -65,13 +83,14 @@ class AboutPluginsComposerList extends Page
                                 return \Illuminate\Support\Str::contains($data['dist']['name'], $word)
                                     || \Illuminate\Support\Str::contains($data['dist']['description'], $word)
                                     || collect($data['dist']['keywords'])->filter(
-                                        fn ($keyword) => \Illuminate\Support\Str::contains($keyword, $word)
+                                        fn ($keyword) =>
+                                        \Illuminate\Support\Str::contains($keyword, $word)
                                     )->count() > 0;
                             });
                     }
 
                     return $query;
-                }),
+                })
         ];
     }
 
@@ -80,7 +99,6 @@ class AboutPluginsComposerList extends Page
         //dd($packageData['dist']);
 
         $url = str_replace('.git', '', $package['data']->getSourceUrl());
-
         return Cache::remember(md5($url), 15 * 60, function () use ($url) {
             return collect(get_meta_tags($url))
                 ->only('twitter:image:src', 'og:image')
