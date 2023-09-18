@@ -18,8 +18,11 @@ class FilamentPluginsPlugin implements Plugin
     {
         $panel
             ->pages([
-                Pages\AboutPluginsList::class,
-                //AboutPluginsUpToDate::class,
+                Pages\AboutPluginsDashboard::class,
+                Pages\AboutPluginsPanels::class,
+                Pages\AboutPluginsComposerList::class,
+                Pages\AboutPluginsAbout::class,
+                Pages\AboutPluginsViews::class,
             ]);
     }
 
@@ -31,7 +34,7 @@ class FilamentPluginsPlugin implements Plugin
                     ->icon('heroicon-o-battery-100')
                     ->label('About plugins')
                     ->color('warning') //\Filament\Support\Colors\Color::Blue)
-                    ->url(Pages\AboutPluginsList::getUrl())
+                    ->url(Pages\AboutPluginsDashboard::getUrl())
                     ->sort(999),
                 // ...
             ]);
