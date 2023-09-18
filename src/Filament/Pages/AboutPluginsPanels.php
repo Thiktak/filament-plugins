@@ -2,37 +2,27 @@
 
 namespace Thiktak\FilamentPlugins\Filament\Pages;
 
-use Filament\Pages\Page;
-use Symfony\Component\Process\Process;
-
 use Composer\Console\Application;
-use Filament\Actions\Action;
-use Filament\Forms\Components\TextInput;
-use Filament\Forms\Concerns\InteractsWithForms;
-use Filament\Forms\Contracts\HasForms;
 use Filament\Infolists\Components\IconEntry;
-use Filament\Infolists\Components\RepeatableEntry;
 use Filament\Infolists\Components\Section;
 use Filament\Infolists\Components\Tabs;
 use Filament\Infolists\Components\TextEntry;
 use Filament\Infolists\Concerns\InteractsWithInfolists;
 use Filament\Infolists\Contracts\HasInfolists;
 use Filament\Infolists\Infolist;
-use Filament\Panel;
-use Illuminate\Cache\FileStore;
+use Filament\Pages\Page;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\HtmlString;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
-use Thiktak\FilamentPlugins\Helpers\ComparePackages;
-use Thiktak\FilamentPlugins\Vendors\Shadiakiki1986\ComposerWrapper;
+use Symfony\Component\Process\Process;
 
 class AboutPluginsPanels extends Page implements HasInfolists
 {
     use InteractsWithInfolists;
 
     protected static string $view = 'thiktak-filament-plugins::filament.pages.about-plugins-panels';
+
     protected static ?string $navigationGroup = 'Settings';
 
     public static function shouldRegisterNavigation(): bool
@@ -163,20 +153,22 @@ class AboutPluginsPanels extends Page implements HasInfolists
                                                     ->map(function ($data, $key) {
                                                         $rc = new \ReflectionClass($data);
                                                         $path = str_replace(base_path(), '', $rc->getFileName());
-                                                        return new HtmlString("
-    <div class=\"mb-1 p-1 block w-full\">
-      <h6 class=\"block font-bold\">" . get_class($data) . "</h6>
-      <div class=\"ps-2 truncate block w-full\">
-        <em><small>" . $path . "</small></em>
+
+                                                        return new HtmlString('
+    <div class="mb-1 p-1 block w-full">
+      <h6 class="block font-bold">' . get_class($data) . '</h6>
+      <div class="ps-2 truncate block w-full">
+        <em><small>' . $path . '</small></em>
       </div>
     </div>
-");
+');
                                                     }))
                                                 ->html()
                                                 ->listWithLineBreaks(),
                                         ]),
                                 ]);
                         }
+
                         return $tabs;
                     })
                     ->activeTab(function () {
@@ -188,17 +180,19 @@ class AboutPluginsPanels extends Page implements HasInfolists
             ]);
     }
 
-    public function unprotectProperty(Object $class, $property, $parentClass = null)
+    public function unprotectProperty(object $class, $property, $parentClass = null)
     {
         $class = new \ReflectionClass($parentClass ?: $class);
         $myProtectedProperty = $class->getProperty($property);
         $myProtectedProperty->setAccessible(true);
+
         return $myProtectedProperty->getValue($class);
     }
 
-    public function getNonAccessibleProperty(Object $object, $property, $default = null)
+    public function getNonAccessibleProperty(object $object, $property, $default = null)
     {
         $data = get_mangled_object_vars($object);
+
         return collect($data)
             ->mapWithKeys(function ($val, $key) {
                 return [trim($key, "\x00*#-+") => $val];
@@ -206,9 +200,10 @@ class AboutPluginsPanels extends Page implements HasInfolists
             ->get($property, $default);
     }
 
-    public function getNonAccessibleProperties(Object $object)
+    public function getNonAccessibleProperties(object $object)
     {
         $data = get_mangled_object_vars($object);
+
         return collect($data)
             ->mapWithKeys(function ($val, $key) {
                 return [trim($key, "\x00*#-+") => $val];

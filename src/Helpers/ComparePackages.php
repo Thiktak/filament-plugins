@@ -11,7 +11,6 @@ use Thiktak\FilamentPlugins\Vendors\Shadiakiki1986\ComposerWrapper;
 // code below copied from https://github.com/composer/composer/blob/master/src/Composer/Command/ShowCommand.php
 class ComparePackages
 {
-
     public static function compareVersions($v1, $source1, bool $isDev, $v2, $source2)
     {
         if ($isDev) {
@@ -20,7 +19,7 @@ class ComparePackages
             } else {
                 return '<';
             }
-        } else if (version_compare($v1, $v2, '=')) {
+        } elseif (version_compare($v1, $v2, '=')) {
             return '=';
         } else {
             return '<';
@@ -68,7 +67,6 @@ class ComparePackages
                 return $packages['<info>installed</info>:'] ?? [];
             });
 
-
             Notification::make()
                 ->title('Composer - fetch packagist')
                 ->info()
@@ -94,7 +92,6 @@ class ComparePackages
 
                 $allDataPackagist = $allDataPackagist->mergeRecursive($dataPackagist['packages']);
             }
-
 
             Notification::make()
                 ->title('Composer - compare')
@@ -164,12 +161,10 @@ class ComparePackages
                 dump($dist);*/
             }
 
-
             Notification::make()
                 ->title('Composer - Check complete')
                 ->info()
                 ->send();
-
 
             return [
                 'lastModified' => new \DateTime,

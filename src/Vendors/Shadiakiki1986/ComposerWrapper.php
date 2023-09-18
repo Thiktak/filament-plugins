@@ -12,7 +12,7 @@ class ComposerWrapper
     public $composer;
 
     // same parameter as in composer/composer/src/Composer/Factory.php function createComposer
-    function __construct(\Composer\Composer $composer = null)
+    public function __construct(\Composer\Composer $composer = null)
     {
         if (is_null($composer)) {
             $io = new \Composer\IO\NullIO();
@@ -25,23 +25,23 @@ class ComposerWrapper
     public function showDirect()
     {
         // init repos
-        $platformOverrides = array();
+        $platformOverrides = [];
         if ($this->composer) {
-            $platformOverrides = $this->composer->getConfig()->get('platform') ?: array();
+            $platformOverrides = $this->composer->getConfig()->get('platform') ?: [];
         }
-        $platformRepo = new PlatformRepository(array(), $platformOverrides);
+        $platformRepo = new PlatformRepository([], $platformOverrides);
         $phpVersion = $platformRepo->findPackage('php', '*')->getVersion();
 
         $repos = $installedRepo = $this->composer->getRepositoryManager()->getLocalRepository();
 
         if ($repos instanceof CompositeRepository) {
             $repos = $repos->getRepositories();
-        } elseif (!is_array($repos)) {
-            $repos = array($repos);
+        } elseif (! is_array($repos)) {
+            $repos = [$repos];
         }
 
         // list packages
-        $packages = array();
+        $packages = [];
 
         $packageListFilter = $this->getRootRequires();
 
@@ -58,18 +58,18 @@ class ComposerWrapper
             }
             if ($repo instanceof ComposerRepository && $repo->hasProviders()) {
                 foreach ($repo->getProviderNames() as $name) {
-                    if (!$packageFilter || preg_match($packageFilter, $name)) {
+                    if (! $packageFilter || preg_match($packageFilter, $name)) {
                         $packages[$type][$name] = $name;
                     }
                 }
             } else {
                 foreach ($repo->getPackages() as $package) {
                     if (
-                        !isset($packages[$type][$package->getName()])
-                        || !is_object($packages[$type][$package->getName()])
+                        ! isset($packages[$type][$package->getName()])
+                        || ! is_object($packages[$type][$package->getName()])
                         || version_compare($packages[$type][$package->getName()]->getVersion(), $package->getVersion(), '<')
                     ) {
-                        if (!$packageListFilter || in_array($package->getName(), $packageListFilter, true)) {
+                        if (! $packageListFilter || in_array($package->getName(), $packageListFilter, true)) {
                             $packages[$type][$package->getName()] = $package;
                         }
                     }
@@ -91,12 +91,13 @@ class ComposerWrapper
             }
         );
 
-        return ($packages);
+        return $packages;
     }
 
     private function getRootRequires()
     {
         $rootPackage = $this->composer->getPackage();
+
         return array_map(
             'strtolower',
             array_keys(array_merge($rootPackage->getRequires(), $rootPackage->getDevRequires()))
